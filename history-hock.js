@@ -14,6 +14,7 @@
    * @param obj
    */
   historyQueue.prototype.push = function (title, obj) {
+    // console.log('push+++++++++++++');
     this.index++;
     var state = {
       title: title,
@@ -24,6 +25,7 @@
       , obj: obj
     });
     window.history.pushState(state, title, "#");
+    // console.log(window.history);
   };
   /**
    * 初始化历史队列
@@ -37,14 +39,22 @@
       var hashName = hashSplit[1]; // 取数组的第一个
       if (hashName === undefined) {
         var queueItem = _that.queue.shift();
-        if(queueItem.title === 'base'){
-          history.back();
+        if(queueItem){
+          // console.log('title:'+queueItem.title);
+          // if(queueItem.title === 'base'){
+          //   history.go(-1);
+          // }else{
+            listener(queueItem);
+          // }
         }else{
-          listener(queueItem);
+          history.back();
+          // console.log("queueItem undefined");
         }
+      }else{
+        // console.log('hashName:'+hashName)
       }
     }, false);
-    this.push("base");
+    // this.push("base");
   };
   if(!window.historyQueue){
     window.historyQueue = new historyQueue();
